@@ -8,7 +8,7 @@ from tavily import TavilyClient
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 tavily_client = TavilyClient(api_key=os.environ.get("TAVILY_API_KEY"))
 
-MODEL = "qwen/qwen3.6-27b"
+MODEL = "openai/gpt-oss-20b"
 MAX_ROUNDS = 4
 
 # --- Search ---
@@ -60,8 +60,7 @@ Answer:"""
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1500,
-        temperature=0,
-        extra_body={"thinking": {"type": "disabled"}}
+        temperature=0
     )
     
     answer = response.choices[0].message.content
@@ -100,8 +99,7 @@ Be strict. If in doubt, FAIL."""
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=500,
-        temperature=0,
-        extra_body={"thinking": {"type": "disabled"}}
+        temperature=0
     )
     
     evaluation = response.choices[0].message.content
