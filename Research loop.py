@@ -8,7 +8,7 @@ from tavily import TavilyClient
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 tavily_client = TavilyClient(api_key=os.environ.get("TAVILY_API_KEY"))
 
-MODEL = "llama-3.3-70b-versatile"
+MODEL = "qwen/qwen3.6-27b"
 MAX_ROUNDS = 4
 
 # --- Search ---
