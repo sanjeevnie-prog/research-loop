@@ -8,7 +8,7 @@ from tavily import TavilyClient
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 tavily_client = TavilyClient(api_key=os.environ.get("TAVILY_API_KEY"))
 
-MODEL = "openai/gpt-oss-20b"
+MODEL = "llama-3.1-8b-instant"
 MAX_ROUNDS = 4
 
 # --- Search ---
@@ -62,7 +62,7 @@ Answer:"""
     response = groq_client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
-        max_completion_tokens=1500,
+        max_tokens=1500,
         temperature=0
     )
     
@@ -103,7 +103,7 @@ Be strict. If in doubt, FAIL."""
     response = groq_client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
-        max_completion_tokens=500,
+        max_tokens=500,
         temperature=0
     )
     
