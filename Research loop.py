@@ -62,7 +62,7 @@ Answer:"""
     response = groq_client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=1500,
+        max_completion_tokens=1500,
         temperature=0
     )
     
@@ -103,7 +103,7 @@ Be strict. If in doubt, FAIL."""
     response = groq_client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=500,
+        max_completion_tokens=500,
         temperature=0
     )
     
