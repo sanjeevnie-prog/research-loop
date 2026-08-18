@@ -34,19 +34,22 @@ def generator(question: str, feedback: str = "") -> tuple[str, str]:
     
     feedback_section = f"\n\nPrevious evaluation feedback — address these gaps specifically:\n{feedback}" if feedback else ""
     
-    prompt = f"""You are a research assistant producing answers for a professional newsletter.
+    prompt = f"""You are a research assistant producing answers for a professional Indian business newsletter.
 
 Your job: answer the research question below using the search results provided.
 
-Rules for sources:
-- Only cite named publications, research institutions, company blogs, or official reports
-- Never cite SEO content farms, listicles, or promotional pages
-- If a source doesn't clearly identify its author or institution, don't cite it
+SOURCE RULES — these are strict and non-negotiable:
+- PREFER, in this order: (1) company filings, annual reports, investor presentations, earnings releases; (2) named business publications with a bylined journalist (Business Standard, Economic Times, Mint, Reuters, Bloomberg); (3) government or regulatory data.
+- NEVER cite: LinkedIn posts, Medium posts, personal blogs, PESTEL/SWOT analysis sites, listicles, SEO content farms, HBR case-study summaries republished by third parties, or any page that doesn't name a specific author or institution.
+- If a claim can only be supported by an excluded source, DROP the claim rather than cite a weak source.
+- For every claim, prefer a specific number from a primary source over a general statement from a secondary one.
 
-Rules for the answer:
-- Cover all major angles of the question — don't stop at the first sufficient-looking answer
-- Name specific sources for every claim
-- Flag explicitly if two sources contradict each other
+ANSWER RULES:
+- Cover all major angles — don't stop at the first sufficient-looking answer
+- Lead with the most recent data available (latest quarter or full year), and name the reporting period
+- Name a specific source for every claim, and include a number or data point wherever one exists
+- Flag explicitly if two sources contradict each other — never average them into one sentence
+- Explain the business implication of each finding, not just the fact
 - Write in clear, direct prose{feedback_section}
 
 Research question: {question}
@@ -77,12 +80,14 @@ Answer to evaluate:
 
 Check for these specific gaps:
 1. Are there major angles of this question that weren't covered?
-2. Are there claims made without a named source — publication, institution, company blog, or official report?
-3. Is there a specific number or data point for every key claim, or are claims stated as general facts without evidence?
-4. If two sources disagree, has that contradiction been named explicitly — or was it averaged into one clean sentence?
-5. Is there a named company, market, or India-specific context where relevant — or is the answer too generic to be useful for an Indian business audience?
-6. Does the answer explain the business or market implication of each finding — not just the fact itself?
-7. Would a domain expert read this and immediately ask "but what about X?"
+2. Are there claims made without a named source — publication, institution, company filing, or official report?
+3. Does any claim rely on a weak source (LinkedIn post, Medium, personal blog, PESTEL/SWOT site, listicle, unnamed author)? If so, that is an automatic FAIL.
+4. Is there a specific number or data point for every key claim, or are claims stated as general facts without evidence?
+5. Is the answer using the most recent data available, or is it citing older figures when newer ones exist?
+6. If two sources disagree, has that contradiction been named explicitly — or was it averaged into one clean sentence?
+7. Is there a named company, market, or India-specific context where relevant — or is the answer too generic to be useful for an Indian business audience?
+8. Does the answer explain the business or market implication of each finding — not just the fact itself?
+9. Would a domain expert read this and immediately ask "but what about X?"
 
 If the answer passes all seven checks, respond with exactly:
 VERDICT: PASS
