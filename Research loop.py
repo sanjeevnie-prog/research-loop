@@ -60,7 +60,8 @@ Answer:"""
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1500,
-        temperature=0
+        temperature=0,
+        extra_body={"thinking": {"type": "disabled"}}
     )
     
     answer = response.choices[0].message.content
@@ -99,7 +100,8 @@ Be strict. If in doubt, FAIL."""
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=500,
-        temperature=0
+        temperature=0,
+        extra_body={"thinking": {"type": "disabled"}}
     )
     
     evaluation = response.choices[0].message.content
