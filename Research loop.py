@@ -8,7 +8,7 @@ from tavily import TavilyClient
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 tavily_client = TavilyClient(api_key=os.environ.get("TAVILY_API_KEY"))
 
-MODEL = "llama-3.1-8b-instant"
+MODEL = "openai/gpt-oss-120b"
 MAX_ROUNDS = 4
 
 # --- Search ---
@@ -62,12 +62,13 @@ Answer:"""
     response = groq_client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=1500,
-        temperature=0
+        max_completion_tokens=4000,
+        temperature=0,
+        reasoning_effort="low"
     )
     
-    answer = response.choices[0].message.content
-    return answer, search_results
+    answer = response.choices[0].message.content or ""
+    return answer.strip(), search_results
 
 # --- Evaluator ---
 def evaluator(question: str, answer: str) -> tuple[str, str]:
@@ -103,11 +104,12 @@ Be strict. If in doubt, FAIL."""
     response = groq_client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=500,
-        temperature=0
+        max_completion_tokens=2000,
+        temperature=0,
+        reasoning_effort="low"
     )
     
-    evaluation = response.choices[0].message.content
+    evaluation = response.choices[0].message.content or ""
     
     if "VERDICT: PASS" in evaluation:
         return "PASS", ""
